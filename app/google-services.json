@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "432204262453",
+    "firebase_url": "https://konefsmprototype.firebaseio.com",
+    "project_id": "konefsmprototype",
+    "storage_bucket": "konefsmprototype.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432204262453:android:ba8140c9d02bbda3",
+        "android_client_info": {
+          "package_name": "fsm.kone.com.konefsm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432204262453-1p4tmjjov6elriau0umk6bd67g63937m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fsm.kone.com.konefsm",
+            "certificate_hash": "35ac452ce18a1c28f7f71fab2a14536ec2c6344c"
+          }
+        },
+        {
+          "client_id": "432204262453-892t65ck7rqna6aq6e342gda3giodaub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAV3gF9LKPeFUwo-RnQ9GCt2PXtVuwfy4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432204262453-892t65ck7rqna6aq6e342gda3giodaub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
