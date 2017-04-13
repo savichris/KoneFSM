@@ -2,29 +2,155 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
-                                             android:orientation="vertical"
                                              android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+                                             android:layout_height="match_parent"
+                                             android:background="@android:color/white"
+                                             android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Supervisor"
+    <ImageView
+        android:id="@+id/supervisorImg"
+        android:layout_width="140dp"
+        android:layout_height="300dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:transitionName="supervisorCharacter"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/character_blue_man_facility_manager"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.38"/>
 
-    <Button
-        android:id="@+id/submitBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Submit"
+    <ImageButton
+        android:id="@+id/nextBtn"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+        app:srcCompat="@drawable/equip_c_arrow_right"/>
+
+    <ImageView
+        android:id="@+id/supervisor_goal_1_img"
+        android:layout_width="104dp"
+        android:layout_height="92dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:hapticFeedbackEnabled="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/character_1_a_tailored_maintenance_plan_01"/>
+
+    <ImageView
+        android:id="@+id/supervisor_goal_2_img"
+        android:layout_width="104dp"
+        android:layout_height="92dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:hapticFeedbackEnabled="true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/character_2_installation_01"/>
+
+    <ImageView
+        android:id="@+id/supervisor_goal_3_img"
+        android:layout_width="104dp"
+        android:layout_height="92dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="16dp"
+        android:hapticFeedbackEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/character_3_easy_steps_cad_drawings_01"/>
+
+    <ImageView
+        android:id="@+id/supervisor_goal_4_img"
+        android:layout_width="104dp"
+        android:layout_height="92dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginRight="16dp"
+        android:hapticFeedbackEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/character_3_expert_help_from_skilled_technicians_01"/>
+
+    <TextView
+        android:id="@+id/supervisor_goal1_txt"
+        android:layout_width="153dp"
+        android:layout_height="94dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/colorPrimary"
+        android:hapticFeedbackEnabled="false"
+        android:padding="2dp"
+        android:text="@string/supervisor_goal_1"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/supervisor_goal_1_img"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintLeft_toRightOf="@+id/supervisor_goal_1_img"
+        app:layout_constraintRight_toRightOf="@+id/supervisorImg"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/supervisor_goal2_txt"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/com_facebook_likeboxcountview_border_color"
+        android:padding="2dp"
+        android:text="@string/supervisor_goal_2"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/technicianImg"
+        app:layout_constraintLeft_toRightOf="@+id/technicianImg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/supervisor_goal_2_img"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <TextView
+        android:id="@+id/supervisor_goal4_txt"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorPrimary"
+        android:padding="2dp"
+        android:text="@string/supervisor_goal_3"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/supervisor_goal_4_img"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/supervisor_goal3_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/com_facebook_likeboxcountview_border_color"
+        android:maxWidth="160dp"
+        android:padding="2dp"
+        android:text="@string/supervisor_goal_4"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/supervisor_goal_3_img"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/supervisor_goal4_txt"
+        app:layout_constraintTop_toBottomOf="@+id/supervisor_goal_1_img"
+        app:layout_constraintVertical_bias="1.0"/>
 </android.support.constraint.ConstraintLayout>

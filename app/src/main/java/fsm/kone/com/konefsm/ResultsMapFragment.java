@@ -82,10 +82,17 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     TrainingResult message = messageSnapshot.getValue(TrainingResult.class);
                     String snippet = "Completed " + message.productName + " " + message.role + " @ " + new Date(message.timestamp).toString();
-                    LatLng loc = new LatLng(message.getLatitude(), message.getLongitude());
-                    final MarkerOptions marker = new MarkerOptions().position(loc)
-                            .title(message.username).snippet(snippet);
-                    markerTable.put(message.uid, marker);
+                    LatLng loc = null;
+                    try {
+                        loc = new LatLng(message.getLatitude(), message.getLongitude());
+                    } catch (NullPointerException e) {
+                        Log.d(TAG, "result data with no location for user:" + message.username);
+                    }
+                    if (loc != null) {
+                        final MarkerOptions marker = new MarkerOptions().position(loc)
+                                .title(message.username).snippet(snippet);
+                        markerTable.put(message.uid, marker);
+                    }
                 }
 
 
@@ -109,16 +116,23 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TrainingResult message = dataSnapshot.getValue(TrainingResult.class);
                 String snippet = "Completed " + message.productName + " " + message.role + " @ " + new Date(message.timestamp).toString();
-                LatLng loc = new LatLng(message.getLatitude(), message.getLongitude());
-                final MarkerOptions marker = new MarkerOptions().position(loc)
-                        .title(message.username).snippet(snippet);
-                markerTable.put(message.uid, marker);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        googleMap.addMarker(marker);
-                    }
-                });
+                LatLng loc = null;
+                try {
+                    loc = new LatLng(message.getLatitude(), message.getLongitude());
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "new results, no location data");
+                }
+                if (loc != null) {
+                    final MarkerOptions marker = new MarkerOptions().position(loc)
+                            .title(message.username).snippet(snippet);
+                    markerTable.put(message.uid, marker);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            googleMap.addMarker(marker);
+                        }
+                    });
+                }
             }
 
             @Override

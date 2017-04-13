@@ -1,6 +1,7 @@
 package fsm.kone.com.konefsm;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -30,20 +31,19 @@ import static fsm.kone.com.konefsm.TrainingController.VIEW_TRAINING;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FirebaseAuth.AuthStateListener {
-
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "mainactivity";
     public static final int REQUEST_LOCATION = 1234;
 
     private TrainingController mController;
-
     private NavigationView navigationView;
     private boolean instanceStateSaved = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "create");
         super.onCreate(savedInstanceState);
+        instanceStateSaved = false;
         setContentView(R.layout.activity_main);
         mController = TrainingController.getInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,18 +56,35 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(this);
+        if (auth.getCurrentUser() != null) {
+            mController.showView(VIEW_CURRENT);
+        }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d(TAG, "config changed");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        instanceStateSaved = false;
+        Log.d(TAG, "resume");
         if (needsLocationUpdate) {
+            Log.d(TAG, "needs new loc");
             needsLocationUpdate = false;
             mController.updateLocation();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "start");
+        instanceStateSaved = false;
+        super.onStart();
     }
 
     private void updateForAuthState(FirebaseAuth auth) {
@@ -88,6 +105,7 @@ public class MainActivity extends AppCompatActivity
                     name = user.getDisplayName();
                     email = user.getEmail();
                 }
+
                 mController.showView(TrainingController.VIEW_CURRENT);
             } else {
                 Log.d(TAG, "no user signed in");
@@ -109,17 +127,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(TAG, "pause");
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "destroy");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.removeAuthStateListener(this);
     }
 
     @Override
     public void onBackPressed() {
+        Log.d(TAG, "back pressed");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -135,6 +161,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(TAG, "saving state");
         instanceStateSaved = true;
     }
 
@@ -160,7 +187,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -175,7 +201,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
             selectedView = VIEW_MANAGE;
         }
-        mController.showView(selectedView);
+        if (!instanceStateSaved)
+            mController.showView(selectedView);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -183,11 +210,9 @@ public class MainActivity extends AppCompatActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
         if (requestCode == RC_SIGN_IN) {
+            Log.d(TAG, "sign in result: " + resultCode);
             IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            // Successfully signed in
             if (resultCode == ResultCodes.OK) {
                 // update UI with current user info
                 return;
@@ -209,7 +234,6 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
             }
-
             Log.d(TAG, "unknown login response");
         }
     }
@@ -218,6 +242,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "permission result");
         switch (requestCode) {
             case REQUEST_LOCATION:
                 needsLocationUpdate = true;
@@ -228,12 +253,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
-        if (auth != null) {
-            if (!instanceStateSaved)
-                updateForAuthState(auth);
-        } else {
-            Log.d(TAG, "no auth object: failed to update");
-        }
+    public void onAuthStateChanged(@NonNull final FirebaseAuth auth) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "auth state changed");
+                if (auth != null) {
+                    if (!instanceStateSaved)
+                        updateForAuthState(auth);
+                } else {
+                    Log.d(TAG, "no auth object: failed to update");
+                }
+            }
+        });
+
     }
 }
