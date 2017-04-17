@@ -273,4 +273,8 @@ class TrainingController {
         }
         return lastKnownLocation;
     }
+
+    public int getCurrentView() {
+        return currentView;
+    }
 }

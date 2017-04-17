@@ -61,6 +61,23 @@ public class MainActivity extends AppCompatActivity
         }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        handleIntent();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent();
+    }
+
+    private void handleIntent() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            int view = intent.getIntExtra("viewType", VIEW_CURRENT);
+            if (view != mController.getCurrentView()) {
+                mController.showView(view);
+            }
+        }
     }
 
     @Override
@@ -171,6 +188,8 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
