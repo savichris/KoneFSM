@@ -5,6 +5,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="invitation_title">Share KONE FSM with others</string>
+    <string name="invite_action">Invite others</string>
+    <string name="invitation_custom_image">http://www.kone.com/en/Images/kone-logo-76x52_tcm17-8930.png</string>
+    <string name="invitation_cta">Start Now!</string>
     <string name="google_maps_key">AIzaSyCjM5aI2htMNO_ESUbnAhOc4uilrkBVOOM</string>
 
     <!-- supervisor goals, slide b-2 -->
@@ -18,4 +22,7 @@
     <string name="technician_goal_2">Enhanced customer satisfaction by tool simplification</string>
     <string name="technician_goal_3">Direct Access and Communication to Call Center</string>
     <string name="technician_goal_4">Faster Access to work story of the service equipment and with all supporting documentation</string>
+    <string name="invitation_message">Check out the new KONE FSM app!</string>
+
+
 </resources>

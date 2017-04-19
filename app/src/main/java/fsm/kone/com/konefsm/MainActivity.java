@@ -2,6 +2,7 @@ package fsm.kone.com.konefsm;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "mainactivity";
     public static final int REQUEST_LOCATION = 1234;
+    public static final int REQUEST_INVITE = 5678;
 
     private TrainingController mController;
     private NavigationView navigationView;
@@ -201,6 +204,15 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.invite_action) {
+                Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                        .setMessage(getString(R.string.invitation_message))
+//                        .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+                        .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                        .setCallToActionText(getString(R.string.invitation_cta))
+                        .build();
+                startActivityForResult(intent, REQUEST_INVITE);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -254,6 +266,15 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             Log.d(TAG, "unknown login response");
+        } else if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+            } else {
+                Log.w(TAG, "unable to invite others with Firebase invitation");
+            }
         }
     }
 

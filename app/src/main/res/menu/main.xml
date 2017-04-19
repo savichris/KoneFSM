@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
+<group>
+        <item android:id="@+id/invite_action"
+              android:title="@string/invite_action"
+              app:showAsAction="ifRoom"
+              android:icon="@android:drawable/ic_menu_share"/>
+    </group>
 </menu>
