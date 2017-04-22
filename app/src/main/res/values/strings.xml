@@ -3,6 +3,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="create_account">Login or Sign Up</string>
 
     <string name="action_settings">Settings</string>
     <string name="invitation_title">Share KONE FSM with others</string>
@@ -23,6 +24,56 @@
     <string name="technician_goal_3">Direct Access and Communication to Call Center</string>
     <string name="technician_goal_4">Faster Access to work story of the service equipment and with all supporting documentation</string>
     <string name="invitation_message">Check out the new KONE FSM app!</string>
+    <string name="read_all">Make sure to read all the goals before proceeding</string>
 
+    <!-- technician slide a-3-->
+    <string name="technician_a3_title">Travel and Equipment Work</string>
+    <string name="technician_a3_text">We understand that traveling and working on the equipment are the two most time consuming
+activities in a service visit.  To aide with this, FSM will optimize travel path and focus on having all
+the right tools and parts to work on the equipment</string>
 
+    <!-- technician slide a-4-->
+    <string name="technician_a4_title">Long travel time</string>
+    <string name="technician_a4_cause1">Unnecessary detours</string>
+    <string name="technician_a4_cause2">Traffic jam</string>
+    <string name="technician_a4_cause3">Flat tire</string>
+    <string name="technician_a4_cause4">Fail in one visit</string>
+    <string name="technician_a4_mitigation1">Optimized visit schedule</string>
+    <string name="technician_a4_mitigation2">Optimized route</string>
+    <string name="technician_a4_mitigation3">Keep a spare in the truck</string>
+    <string name="technician_a4_mitigation4">Online consulting and coaching</string>
+
+    <!-- technician slide a-5-->
+    <string name="technician_a5_title">Equipment work time</string>
+    <string name="technician_a5_cause1">Missing instructions</string>
+    <string name="technician_a5_cause2">No work history</string>
+    <string name="technician_a5_cause3">Customer not ready</string>
+    <string name="technician_a5_cause4">Long reporting &amp; request times</string>
+    <string name="technician_a5_mitigation1">Instructions on the go</string>
+    <string name="technician_a5_mitigation2">Online maintenance log</string>
+    <string name="technician_a5_mitigation3">Online customer information</string>
+    <string name="technician_a5_mitigation4">Online report &amp; request</string>
+
+    <!-- technician slide a-6 -->
+    <string name="technician_a6_title">Mobile accessible tools</string>
+    <string name="technician_a6_btn1_txt">Scheduling &amp; Dispatching</string>
+    <string name="technician_a6_btn2_txt">Field Mobility</string>
+    <string name="technician_a6_btn3_txt">Data Management</string>
+    <string name="technician_a6_btn4_txt">Call Center</string>
+    <string name="technician_a6_popup1_txt">Would you rather spend your time working with equipment than spend it by
+        planning your work, trying to remember what you
+        needed to do next, or being stuck in
+        traffic? Why not give a try at the new dispatching functionality, your personal pocket planner!</string>
+    <string name="technician_a6_popup2_txt">What is the one thing you have in your pocket at times?
+        FSM will be widening the set of easy to use mobile features supporting you in your daily work,
+        helping to execute tasks fast and provide excellent customer service.
+        Technology is here to serve you, not the other way around!</string>
+    <string name="technician_a6_popup3_txt">When is the last time you have chased after a manual, circuit diagram,
+        fault code list or specialist phone number, for completing troubleshooting or fixing and issue?
+        You might be delighted to hear that all this information could be now found in one place,
+        accessible through your mobile phone.</string>
+    <string name="technician_a6_popup4_txt">Think about a first visit to the site when you have never gone before.
+        What if someone had collected and offered to your disposal all the service contract details,
+        service history and customer special requests? For this we are connecting our call centers with
+        a completely new way of delivering information.</string>
 </resources>

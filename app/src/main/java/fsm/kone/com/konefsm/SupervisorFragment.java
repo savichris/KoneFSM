@@ -2,6 +2,7 @@ package fsm.kone.com.konefsm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -81,14 +82,21 @@ public class SupervisorFragment extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TrainingResult result = new TrainingResult();
-                result.productName = "FSM";
-                result.role = "supervisor";
-                result.timestamp = System.currentTimeMillis();
-                if (mController.publishTrainingResults(result)) {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    mController.showView(TrainingController.VIEW_MAP);
-                    view.setEnabled(false);
+                if (goal1Txt.getVisibility() == View.VISIBLE &&
+                        goal2Txt.getVisibility() == View.VISIBLE &&
+                        goal3Txt.getVisibility() == View.VISIBLE &&
+                        goal4Txt.getVisibility() == View.VISIBLE) {
+                    TrainingResult result = new TrainingResult();
+                    result.productName = "FSM";
+                    result.role = "supervisor";
+                    result.timestamp = System.currentTimeMillis();
+                    if (mController.publishTrainingResults(result)) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        mController.showView(TrainingController.VIEW_MAP);
+                        view.setEnabled(false);
+                    }
+                } else {
+                    Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

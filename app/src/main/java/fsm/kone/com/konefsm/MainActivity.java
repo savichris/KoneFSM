@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +24,8 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -29,10 +33,12 @@ import static fsm.kone.com.konefsm.TrainingController.VIEW_CURRENT;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_FAQ;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_MANAGE;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_MAP;
+import static fsm.kone.com.konefsm.TrainingController.VIEW_SPLASH;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_TRAINING;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FirebaseAuth.AuthStateListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FirebaseAuth.AuthStateListener,
+        ILoginDelegate {
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "mainactivity";
     public static final int REQUEST_LOCATION = 1234;
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity
         auth.addAuthStateListener(this);
         if (auth.getCurrentUser() != null) {
             mController.showView(VIEW_CURRENT);
+        } else {
+            mController.showView(VIEW_SPLASH);
         }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -125,19 +133,10 @@ public class MainActivity extends AppCompatActivity
                     name = user.getDisplayName();
                     email = user.getEmail();
                 }
-
-                mController.showView(TrainingController.VIEW_CURRENT);
+                mController.showView(TrainingController.VIEW_TRAINING);
             } else {
                 Log.d(TAG, "no user signed in");
-                // not signed in
-                startActivityForResult(
-                        // Get an instance of AuthUI based on the default app
-                        AuthUI.getInstance().createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(!BuildConfig.DEBUG)
-                                .setLogo(R.drawable.kone_logo_full)
-                                .setTheme(R.style.AppTheme)
-                                .build(),
-                        RC_SIGN_IN);
+                mController.showView(TrainingController.VIEW_SPLASH);
             }
             uEmail.setText(email);
             uName.setText(name);
@@ -292,20 +291,50 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private Handler mHandler;
     @Override
     public void onAuthStateChanged(@NonNull final FirebaseAuth auth) {
-        runOnUiThread(new Runnable() {
+        if (mHandler == null) mHandler = new Handler(Looper.getMainLooper());
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "auth state changed");
                 if (auth != null) {
                     if (!instanceStateSaved)
                         updateForAuthState(auth);
+                    else
+                        Log.d(TAG, "bad state, skip ui update");
                 } else {
                     Log.d(TAG, "no auth object: failed to update");
                 }
             }
-        });
+        }, 250);
 
+    }
+
+    @Override
+    public void startLogin() {
+        // not signed in
+        startActivityForResult(
+                // Get an instance of AuthUI based on the default app
+                AuthUI.getInstance().createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .setLogo(R.drawable.kone_logo_full)
+                        .setTheme(R.style.AppTheme)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    @Override
+    public void startLogout() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // user is now signed out
+                        Log.d(TAG, "sign out finished");
+                    }
+                });
     }
 }

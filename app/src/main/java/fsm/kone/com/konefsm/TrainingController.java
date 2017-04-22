@@ -53,6 +53,8 @@ class TrainingController {
     public static final int VIEW_MAP = 2;
     public static final int VIEW_FAQ = 3;
     public static final int VIEW_MANAGE = 4;
+    public static final int VIEW_SPLASH = 5;
+
     private int currentView = 1;
 
     private TrainingController(AppCompatActivity c, String productName) {
@@ -66,7 +68,7 @@ class TrainingController {
 
     public static TrainingController getInstance(AppCompatActivity c) {
         if (sInstance == null) {
-            sInstance = new TrainingController(c, "demo");
+            sInstance = new TrainingController(c, "FSM");
         } else {
             Log.d(TAG, "reusing instance");
             sInstance.setActivity(c);
@@ -141,7 +143,20 @@ class TrainingController {
     private void beginAdmin() {
         Log.d(TAG, "begin admin");
         try {
-            fragmentManager.beginTransaction().replace(R.id.container, ManageFragment.getInstance()).addToBackStack("admin").commit();
+            ManageFragment adminFrag = ManageFragment.getInstance();
+            adminFrag.setLoginDelegate((ILoginDelegate) mHostActivity);
+            fragmentManager.beginTransaction().replace(R.id.container, adminFrag).addToBackStack("admin").commit();
+        } catch (IllegalStateException e) {
+            Log.e("TrainingController", "failed to update UI", e);
+        }
+    }
+
+    private void beginSplash() {
+        Log.d(TAG, "begin splash");
+        try {
+            SplashFragment frag = SplashFragment.getInstance();
+            frag.setLoginDelegate((ILoginDelegate) mHostActivity);
+            fragmentManager.beginTransaction().replace(R.id.container, frag).addToBackStack("splash").commit();
         } catch (IllegalStateException e) {
             Log.e("TrainingController", "failed to update UI", e);
         }
@@ -167,6 +182,8 @@ class TrainingController {
                     currentFragType = VIEW_FAQ;
                 } else if (fragment instanceof ResultsMapFragment) {
                     currentFragType = VIEW_MAP;
+                } else if (fragment instanceof SplashFragment) {
+                    currentFragType = VIEW_SPLASH;
                 }
                 if (currentFragType == currentView) {
                     Log.d(TAG, "don't show same view again");
@@ -188,6 +205,9 @@ class TrainingController {
                 break;
             case VIEW_MAP:
                 beginMap();
+                break;
+            case VIEW_SPLASH:
+                beginSplash();
                 break;
             case VIEW_CURRENT:
                 showView(currentView);
@@ -276,5 +296,69 @@ class TrainingController {
 
     public int getCurrentView() {
         return currentView;
+    }
+
+    public void advanceTraining(String character, int index, View sharedView) {
+        Fragment nextFrag = null;
+        if (productName.equalsIgnoreCase("fsm")) {
+            if (character.equalsIgnoreCase("technician")) {
+                switch (index) {
+                    case 1:
+                        beginTechnician(sharedView);
+                        break;
+                    case 2:
+                        nextFrag = TechnicianFragment2.getInstance(productName);
+                        break;
+                    case 3:
+                        nextFrag = TechnicianFragment3.getInstance(productName);
+                        break;
+                    case 4:
+                        nextFrag = TechnicianFragment4.getInstance(productName);
+                        break;
+                    case 5:
+                        nextFrag = TechnicianFragment5.getInstance(productName);
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    case 10:
+                        break;
+                    case 11:
+                        break;
+                    case 12:
+                        break;
+                    case 13:
+                        break;
+
+
+                }
+            } else if (character.equalsIgnoreCase("supervisor")) {
+                // nothing else to advance to for FSM program
+            }
+        } else {
+            Log.e(TAG, "unsupported product");
+        }
+        if (nextFrag != null) {
+            Log.d(TAG, "advancing training to " + index);
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    nextFrag.setSharedElementEnterTransition(new CharacterTransform());
+                    nextFrag.setEnterTransition(new Fade());
+                    nextFrag.setExitTransition(new Fade());
+                }
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, nextFrag)
+                        .addSharedElement(sharedView, ViewCompat.getTransitionName(sharedView))
+                        .addToBackStack(productName + "_" + character + index).commit();
+            } catch (IllegalStateException e) {
+                Log.e("TrainingController", "failed to transition to technician training", e);
+            }
+
+        }
     }
 }

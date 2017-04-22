@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static com.twitter.sdk.android.core.TwitterCore.TAG;
+
 /**
  * Created by chris on 4/10/17.
  */
 
-public class TechnicianFragment extends Fragment {
+public class TechnicianFragment4 extends Fragment {
 
     private String productName;
     private TrainingController mController;
     private View characterView;
 
-    public static TechnicianFragment getInstance(String productName) {
-        TechnicianFragment fragment = new TechnicianFragment();
+    public static TechnicianFragment4 getInstance(String productName) {
+        TechnicianFragment4 fragment = new TechnicianFragment4();
         Bundle args = new Bundle();
         args.putString("productName", productName);
         fragment.setArguments(args);
@@ -33,42 +36,44 @@ public class TechnicianFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.technician_training, null);
+        final View rootView = inflater.inflate(R.layout.technician_training_4, null);
         mController = TrainingController.getInstance((AppCompatActivity) getActivity());
 
         characterView = (ImageView) rootView.findViewById(R.id.technicianImg);
 
-        ImageView goal1Btn = (ImageView) rootView.findViewById(R.id.technician_goal1_img);
-        ImageView goal2Btn = (ImageView) rootView.findViewById(R.id.technician_goal2_img);
-        ImageView goal3Btn = (ImageView) rootView.findViewById(R.id.technician_goal3_img);
-        ImageView goal4Btn = (ImageView) rootView.findViewById(R.id.technician_goal4_img);
+        final TextView cause1Txt = (TextView) rootView.findViewById(R.id.technician_cause1_txt);
+        final TextView mitigation1Txt = (TextView) rootView.findViewById(R.id.mitigation1_txt);
+        mitigation1Txt.setVisibility(View.INVISIBLE);
 
-        final TextView goal1Txt = (TextView) rootView.findViewById(R.id.technician_goal1_txt);
-        final TextView goal2Txt = (TextView) rootView.findViewById(R.id.technician_goal2_txt);
-        final TextView goal3Txt = (TextView) rootView.findViewById(R.id.technician_goal3_txt);
-        final TextView goal4Txt = (TextView) rootView.findViewById(R.id.technician_goal4_txt);
+        final TextView cause2Txt = (TextView) rootView.findViewById(R.id.technician_cause2_txt);
+        final TextView mitigation2Txt = (TextView) rootView.findViewById(R.id.mitigation2_txt);
+        mitigation2Txt.setVisibility(View.INVISIBLE);
 
-        goal1Txt.setVisibility(View.GONE);
-        goal2Txt.setVisibility(View.GONE);
-        goal3Txt.setVisibility(View.GONE);
-        goal4Txt.setVisibility(View.GONE);
+        final TextView cause3Txt = (TextView) rootView.findViewById(R.id.technician_cause3_txt);
+        final TextView mitigation3Txt = (TextView) rootView.findViewById(R.id.mitigation3_txt);
+        mitigation3Txt.setVisibility(View.INVISIBLE);
 
-        View.OnClickListener goalClickListener = new View.OnClickListener() {
+        final TextView cause4Txt = (TextView) rootView.findViewById(R.id.technician_cause4_txt);
+        final TextView mitigation4Txt = (TextView) rootView.findViewById(R.id.mitigation4_txt);
+        mitigation4Txt.setVisibility(View.INVISIBLE);
+
+
+        View.OnClickListener causeClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id = view.getId();
                 switch (id) {
-                    case R.id.technician_goal1_img:
-                        toggleGoalText(goal1Txt.getId());
+                    case R.id.technician_cause1_txt:
+                        toggleGoalText(mitigation1Txt.getId());
                         break;
-                    case R.id.technician_goal2_img:
-                        toggleGoalText(goal2Txt.getId());
+                    case R.id.technician_cause2_txt:
+                        toggleGoalText(mitigation2Txt.getId());
                         break;
-                    case R.id.technician_goal3_img:
-                        toggleGoalText(goal3Txt.getId());
+                    case R.id.technician_cause3_txt:
+                        toggleGoalText(mitigation3Txt.getId());
                         break;
-                    case R.id.technician_goal4_img:
-                        toggleGoalText(goal4Txt.getId());
+                    case R.id.technician_cause4_txt:
+                        toggleGoalText(mitigation4Txt.getId());
                         break;
                     default:
                         break;
@@ -76,25 +81,29 @@ public class TechnicianFragment extends Fragment {
             }
         };
 
-        goal1Btn.setOnClickListener(goalClickListener);
-        goal2Btn.setOnClickListener(goalClickListener);
-        goal3Btn.setOnClickListener(goalClickListener);
-        goal4Btn.setOnClickListener(goalClickListener);
+        cause1Txt.setOnClickListener(causeClickListener);
+        cause2Txt.setOnClickListener(causeClickListener);
+        cause3Txt.setOnClickListener(causeClickListener);
+        cause4Txt.setOnClickListener(causeClickListener);
 
         ImageButton nextBtn = (ImageButton) rootView.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (goal1Txt.getVisibility() == View.VISIBLE &&
-                        goal2Txt.getVisibility() == View.VISIBLE &&
-                        goal3Txt.getVisibility() == View.VISIBLE &&
-                        goal4Txt.getVisibility() == View.VISIBLE) {
-                    mController.advanceTraining("technician", 2, characterView);
+                if (mitigation1Txt.getVisibility() == View.VISIBLE) {
+                    view.animate().translationX(view.getX()+rootView.getWidth())
+                            .setDuration(750)
+                            .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(TAG, "animate button to next finished");
+                            mController.advanceTraining("technician", 5, characterView);
+
+                        }
+                    }).start();
                 } else {
                     Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
                 }
-
-
 //                TrainingResult result = new TrainingResult();
 //                result.productName = "FSM";
 //                result.role = "technician";

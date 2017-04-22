@@ -1,48 +1,45 @@
 package fsm.kone.com.konefsm;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by chris on 4/10/17.
  */
 
-public class ManageFragment extends Fragment {
+public class SplashFragment extends Fragment {
 
     private FirebaseAuth auth;
-    private ILoginDelegate delegate;
+    private ILoginDelegate loginDelegate;
 
-    public static ManageFragment getInstance() {
-        return new ManageFragment();
+    public static SplashFragment getInstance() {
+        return new SplashFragment();
     }
-    public void setLoginDelegate(ILoginDelegate loginDelegate) {
-        delegate = loginDelegate;
+    public void setLoginDelegate(ILoginDelegate delegate) {
+        loginDelegate = delegate;
     }
 
-    public ManageFragment() {}
+    public SplashFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.manage, null);
+        View rootView = inflater.inflate(R.layout.splash, null);
         auth = FirebaseAuth.getInstance();
-        Button logoutBtn = (Button) rootView.findViewById(R.id.logoutBtn);
+        Button logoutBtn = (Button) rootView.findViewById(R.id.loginBtn);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                delegate.startLogout();
+                if (loginDelegate != null) {
+                    loginDelegate.startLogin();
+                }
             }
         });
         return rootView;
