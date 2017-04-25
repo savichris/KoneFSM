@@ -76,4 +76,14 @@ the right tools and parts to work on the equipment</string>
         What if someone had collected and offered to your disposal all the service contract details,
         service history and customer special requests? For this we are connecting our call centers with
         a completely new way of delivering information.</string>
+
+    <!-- a7 -->
+    <string name="technician_a7_title">Scheduling &amp; Dispatching</string>
+    <string name="technician_a7_btn1_txt">Dynamically changing schedule</string>
+    <string name="technician_a7_btn2_txt">Route optimization</string>
+    <string name="technician_a7_btn3_txt">Parts availability management</string>
+    <string name="technician_a7_popup1_txt">All maintenance work
+    – no matter if planned of unplanned – will be automatically scheduled. Dynamic assignments will make it easy toknow where you need to be next.</string>
+    <string name="technician_a7_popup2_txt">Location can be used to group scheduled visits to reduce travel time leaving more time for the actual value adding work.</string>
+    <string name="technician_a7_popup3_txt">Dynamic dispatching ensures that planned service is scheduled only when spare parts are available for completing the job.</string>
 </resources>

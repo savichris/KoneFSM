@@ -18,15 +18,15 @@ import static com.twitter.sdk.android.core.TwitterCore.TAG;
  * Created by chris on 4/10/17.
  */
 
-public class TechnicianFragment5 extends Fragment {
+public class TechnicianFragment6 extends Fragment {
 
     private String productName;
     private TrainingController mController;
     private View characterView;
     private TextView popupTxt;
 
-    public static TechnicianFragment5 getInstance(String productName) {
-        TechnicianFragment5 fragment = new TechnicianFragment5();
+    public static TechnicianFragment6 getInstance(String productName) {
+        TechnicianFragment6 fragment = new TechnicianFragment6();
         Bundle args = new Bundle();
         args.putString("productName", productName);
         fragment.setArguments(args);
@@ -36,34 +36,30 @@ public class TechnicianFragment5 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.technician_training_5, null);
+        final View rootView = inflater.inflate(R.layout.technician_training_6, null);
         mController = TrainingController.getInstance((AppCompatActivity) getActivity());
 
         characterView = (ImageView) rootView.findViewById(R.id.technicianImg);
 
-        final TextView btn1Txt = (TextView) rootView.findViewById(R.id.technician_a6_btn1);
-        final TextView btn2Txt = (TextView) rootView.findViewById(R.id.technician_a6_btn2);
-        final TextView btn3Txt = (TextView) rootView.findViewById(R.id.technician_a6_btn3);
-        final TextView btn4Txt = (TextView) rootView.findViewById(R.id.technician_a6_btn4);
+        final TextView btn1Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn1);
+        final TextView btn2Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn2);
+        final TextView btn3Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn3);
         popupTxt  = (TextView) rootView.findViewById(R.id.popup_text);
-        popupTxt.setVisibility(View.INVISIBLE);
+        //popupTxt.setVisibility(View.INVISIBLE);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id = view.getId();
                 switch (id) {
-                    case R.id.technician_a6_btn1:
-                        reveal(R.string.technician_a6_popup1_txt);
+                    case R.id.technician_a7_btn1:
+                        reveal(R.string.technician_a7_popup1_txt);
                         break;
-                    case R.id.technician_a6_btn2:
-                        reveal(R.string.technician_a6_popup2_txt);
+                    case R.id.technician_a7_btn2:
+                        reveal(R.string.technician_a7_popup2_txt);
                         break;
-                    case R.id.technician_a6_btn3:
-                        reveal(R.string.technician_a6_popup3_txt);
-                        break;
-                    case R.id.technician_a6_btn4:
-                        reveal(R.string.technician_a6_popup4_txt);
+                    case R.id.technician_a7_btn3:
+                        reveal(R.string.technician_a7_popup3_txt);
                         break;
                     default:
                         break;
@@ -74,7 +70,6 @@ public class TechnicianFragment5 extends Fragment {
         btn1Txt.setOnClickListener(clickListener);
         btn2Txt.setOnClickListener(clickListener);
         btn3Txt.setOnClickListener(clickListener);
-        btn4Txt.setOnClickListener(clickListener);
 
         ImageButton nextBtn = (ImageButton) rootView.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,20 +81,10 @@ public class TechnicianFragment5 extends Fragment {
                         @Override
                         public void run() {
                             Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 6, characterView);
+                           // mController.advanceTraining("technician", 7, characterView);
 
                         }
                     }).start();
-
-//                TrainingResult result = new TrainingResult();
-//                result.productName = "FSM";
-//                result.role = "technician";
-//                result.timestamp = System.currentTimeMillis();
-//                if (mController.publishTrainingResults(result)) {
-//                    getActivity().getSupportFragmentManager().popBackStack();
-//                    mController.showView(TrainingController.VIEW_MAP);
-//                    view.setEnabled(false);
-//                }
             }
         });
 
@@ -108,23 +93,23 @@ public class TechnicianFragment5 extends Fragment {
 
     private void reveal(int id) {
         Log.d("tech5", "reveal" + getResources().getString(id));
-        final View v = popupTxt;
-        boolean visible = v.getVisibility() == View.VISIBLE;
-        if (visible) {
-            // hide it
-            v.animate().alpha(0f).setDuration(500).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    v.setVisibility(View.INVISIBLE);
-                }
-            }).start();
-
-        }
-        popupTxt.setText(id);
-        // reveal it
-        v.setAlpha(0f);
-        v.setVisibility(View.VISIBLE);
-        v.animate().alpha(1f).setDuration(500).start();
+//        final View v = popupTxt;
+//        boolean visible = v.getVisibility() == View.VISIBLE;
+//        if (visible) {
+//            // hide it
+//            v.animate().alpha(0f).setDuration(500).withEndAction(new Runnable() {
+//                @Override
+//                public void run() {
+//                    v.setVisibility(View.INVISIBLE);
+//                }
+//            }).start();
+//
+//        }
+//        popupTxt.setText(id);
+//        // reveal it
+//        v.setAlpha(0f);
+//        v.setVisibility(View.VISIBLE);
+//        v.animate().alpha(1f).setDuration(500).start();
 
     }
 }

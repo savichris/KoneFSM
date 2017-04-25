@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -319,6 +320,7 @@ class TrainingController {
                         nextFrag = TechnicianFragment5.getInstance(productName);
                         break;
                     case 6:
+                        nextFrag = TechnicianFragment6.getInstance(productName);
                         break;
                     case 7:
                         break;
@@ -346,15 +348,17 @@ class TrainingController {
         if (nextFrag != null) {
             Log.d(TAG, "advancing training to " + index);
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && sharedView != null) {
                     nextFrag.setSharedElementEnterTransition(new CharacterTransform());
                     nextFrag.setEnterTransition(new Fade());
                     nextFrag.setExitTransition(new Fade());
                 }
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, nextFrag)
-                        .addSharedElement(sharedView, ViewCompat.getTransitionName(sharedView))
-                        .addToBackStack(productName + "_" + character + index).commit();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.container, nextFrag);
+                if (sharedView != null) {
+                    transaction.addSharedElement(sharedView, ViewCompat.getTransitionName(sharedView));
+                }
+                transaction.addToBackStack(productName + "_" + character + index).commit();
             } catch (IllegalStateException e) {
                 Log.e("TrainingController", "failed to transition to technician training", e);
             }
