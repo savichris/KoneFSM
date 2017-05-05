@@ -86,4 +86,46 @@ the right tools and parts to work on the equipment</string>
     – no matter if planned of unplanned – will be automatically scheduled. Dynamic assignments will make it easy toknow where you need to be next.</string>
     <string name="technician_a7_popup2_txt">Location can be used to group scheduled visits to reduce travel time leaving more time for the actual value adding work.</string>
     <string name="technician_a7_popup3_txt">Dynamic dispatching ensures that planned service is scheduled only when spare parts are available for completing the job.</string>
+
+    <!-- a8 -->
+    <string name="technician_a8_title"></string>
+    <string name="technician_a8_txt1">Who is the customer?</string>
+    <string name="technician_a8_txt2">What actions on which equipment?</string>
+    <string name="technician_a8_txt3">Which visit is most urgent?</string>
+    <string name="technician_a8_txt4">What does the contract include?</string>
+
+    <!-- a9 -->
+    <string name="technician_a9_title">What can FSM provide?</string>
+    <string name="technician_a9_txt1">Access to all customer and contract data</string>
+    <string name="technician_a9_txt2">Auto prioritized daily site visit list</string>
+    <string name="technician_a9_txt3">Access to all instructions for focusing preventive maintenance and troubleshooting actions to right components</string>
+
+    <!-- a10 -->
+    <string name="technician_a10_title">What can FSM Field Mobility Benefit?</string>
+    <string name="technician_a10_subtitle1">For KONE User</string>
+    <string name="technician_a10_subtitle2">For Customer</string>
+    <string name="technician_a10_txt1">Correct, complete and up-to-date information</string>
+    <string name="technician_a10_txt2">Time Saving</string>
+    <string name="technician_a10_txt3">Proactive customer communication</string>
+    <string name="technician_a10_txt4">Reliable work list and on-time service</string>
+    <string name="technician_a10_txt5">Fastest and most quality service for Customer Loyality</string>
+
+    <!-- a11 -->
+    <string name="technician_a11_txt1">Fast and Quality Service</string>
+    <string name="technician_a11_txt2">No questionmarks for us and the customers and this means we build trust together</string>
+    <string name="technician_a11_txt3">Winning With the Customer</string>
+
+    <!-- a12 -->
+    <string name="technician_a12_title">How do you look up the basic information and maintenance history of the equipment?</string>
+    <string name="technician_a12_txt1">KFM?</string>
+    <string name="technician_a12_txt2">Ask customer?</string>
+    <string name="technician_a12_txt3">Call out record?</string>
+    <string name="technician_a12_txt4">Maintenance record?</string>
+    <string name="technician_a12_txt5">Manual book?</string>
+    <string name="technician_a12_txt7">Incomplete or out of date information and data?</string>
+    <string name="technician_a12_txt8">Waste time on collecting data/record?</string>
+    <string name="technician_a12_txt9">Do not know what is the maintenance contract required?</string>
+
+
+
 </resources>

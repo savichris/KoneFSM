@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class TechnicianFragment6 extends Fragment {
     private TrainingController mController;
     private View characterView;
     private TextView popupTxt;
+    private FrameLayout popin_container;
 
     public static TechnicianFragment6 getInstance(String productName) {
         TechnicianFragment6 fragment = new TechnicianFragment6();
@@ -44,8 +46,10 @@ public class TechnicianFragment6 extends Fragment {
         final TextView btn1Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn1);
         final TextView btn2Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn2);
         final TextView btn3Txt = (TextView) rootView.findViewById(R.id.technician_a7_btn3);
-        popupTxt  = (TextView) rootView.findViewById(R.id.popup_text);
-        //popupTxt.setVisibility(View.INVISIBLE);
+        popin_container = (FrameLayout) rootView.findViewById(R.id.popin_container);
+        popupTxt = (TextView) popin_container.findViewById(R.id.results);
+
+        popupTxt.setVisibility(View.INVISIBLE);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -81,7 +85,7 @@ public class TechnicianFragment6 extends Fragment {
                         @Override
                         public void run() {
                             Log.d(TAG, "animate button to next finished");
-                           // mController.advanceTraining("technician", 7, characterView);
+                            mController.advanceTraining("technician", 7, characterView);
 
                         }
                     }).start();
@@ -91,25 +95,29 @@ public class TechnicianFragment6 extends Fragment {
         return rootView;
     }
 
-    private void reveal(int id) {
+    private void reveal(final int id) {
         Log.d("tech5", "reveal" + getResources().getString(id));
-//        final View v = popupTxt;
-//        boolean visible = v.getVisibility() == View.VISIBLE;
-//        if (visible) {
-//            // hide it
-//            v.animate().alpha(0f).setDuration(500).withEndAction(new Runnable() {
-//                @Override
-//                public void run() {
-//                    v.setVisibility(View.INVISIBLE);
-//                }
-//            }).start();
-//
-//        }
-//        popupTxt.setText(id);
-//        // reveal it
-//        v.setAlpha(0f);
-//        v.setVisibility(View.VISIBLE);
-//        v.animate().alpha(1f).setDuration(500).start();
+        final View v = popupTxt;
+        boolean visible = v.getVisibility() == View.VISIBLE;
+        if (visible) {
+            // hide it
+            v.animate().alpha(0f).translationY(v.getY()+300).setDuration(500).scaleXBy(-0.5f).withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    v.setVisibility(View.GONE);
+                    reveal(id);
+                }
+            }).start();
+
+        } else {
+            popupTxt.setText(id);
+            // reveal it
+            v.setAlpha(0f);
+            v.setY(0);
+            v.setScaleX(1f);
+            v.setVisibility(View.VISIBLE);
+            v.animate().alpha(1f).translationY(v.getY()+300).setDuration(500).start();
+        }
 
     }
 }
