@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageButton
+        android:id="@+id/nextBtn"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginBottom="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/equip_c_arrow_right"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/technicianImg"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/technicianImg"/>
+
+    <ImageView
+        android:id="@+id/technicianImg"
+        android:layout_width="188dp"
+        android:layout_height="285dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:transitionName="technicianCharacter"
+        app:srcCompat="@drawable/character_blue_man_technician"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintVertical_bias="0.963"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <TextView
+        android:id="@+id/technician_a9_txt2"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="6dp"
+        android:text="@string/technician_a9_txt2"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/technicianImg"
+        app:layout_constraintTop_toBottomOf="@+id/technician_a9_txt1"/>
+
+    <TextView
+        android:id="@+id/technician_a9_txt1"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="6dp"
+        android:text="@string/technician_a9_txt1"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/technician_a9_title"/>
+
+    <TextView
+        android:id="@+id/technician_a9_txt3"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="6dp"
+        android:text="@string/technician_a9_txt3"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/technician_a9_txt2"/>
+
+    <TextView
+        android:id="@+id/technician_a9_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/technician_a9_title"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

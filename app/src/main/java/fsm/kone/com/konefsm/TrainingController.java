@@ -99,7 +99,7 @@ class TrainingController {
     public void beginTechnician(View sharedView) {
         Log.d(TAG, "begin Technician");
         try {
-            Fragment frag = TechnicianFragment.getInstance(productName);
+            Fragment frag = TechnicianFragment7.getInstance(productName);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 frag.setSharedElementEnterTransition(new CharacterTransform());
                 frag.setEnterTransition(new Fade());
@@ -326,6 +326,7 @@ class TrainingController {
                         nextFrag = TechnicianFragment7.getInstance(productName);
                         break;
                     case 8:
+                        nextFrag = TechnicianFragment8.getInstance(productName);
                         break;
                     case 9:
                         break;

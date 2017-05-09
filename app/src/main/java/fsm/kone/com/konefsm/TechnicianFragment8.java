@@ -1,6 +1,8 @@
 package fsm.kone.com.konefsm;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,18 +20,18 @@ import static com.twitter.sdk.android.core.TwitterCore.TAG;
  * Created by chris on 4/10/17.
  */
 
-public class TechnicianFragment7 extends Fragment {
+public class TechnicianFragment8 extends Fragment {
 
     private String productName;
     private TrainingController mController;
     private View characterView;
+    private TextView titleTxt;
     private TextView btn1Txt;
     private TextView btn2Txt;
     private TextView btn3Txt;
-    private TextView btn4Txt;
 
-    public static TechnicianFragment7 getInstance(String productName) {
-        TechnicianFragment7 fragment = new TechnicianFragment7();
+    public static TechnicianFragment8 getInstance(String productName) {
+        TechnicianFragment8 fragment = new TechnicianFragment8();
         Bundle args = new Bundle();
         args.putString("productName", productName);
         fragment.setArguments(args);
@@ -39,26 +41,25 @@ public class TechnicianFragment7 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.technician_training_7, null);
+        final View rootView = inflater.inflate(R.layout.technician_training_8, null);
         mController = TrainingController.getInstance((AppCompatActivity) getActivity());
         characterView = (ImageView) rootView.findViewById(R.id.technicianImg);
-        btn1Txt = (TextView) rootView.findViewById(R.id.technician_a8_txt1);
-        btn2Txt = (TextView) rootView.findViewById(R.id.technician_a8_txt2);
-        btn3Txt = (TextView) rootView.findViewById(R.id.technician_a8_txt3);
-        btn4Txt = (TextView) rootView.findViewById(R.id.technician_a8_txt4);
+        titleTxt = (TextView) rootView.findViewById(R.id.technician_a9_title);
+        btn1Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt1);
+        btn2Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt2);
+        btn3Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt3);
         btn1Txt.setVisibility(View.INVISIBLE);
         btn2Txt.setVisibility(View.INVISIBLE);
         btn3Txt.setVisibility(View.INVISIBLE);
-        btn4Txt.setVisibility(View.INVISIBLE);
 
-        final ImageButton thoughtBubble = (ImageButton) rootView.findViewById(R.id.thought_bubble);
-        thoughtBubble.setOnClickListener(new View.OnClickListener() {
+        Handler handler = new Handler(Looper.getMainLooper());
+
+       handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
+            public void run() {
                 reveal();
-                view.setEnabled(false);
             }
-        });
+        }, 750);
 
         ImageButton nextBtn = (ImageButton) rootView.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +71,7 @@ public class TechnicianFragment7 extends Fragment {
                         @Override
                         public void run() {
                             Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 8, characterView);
+                           // mController.advanceTraining("technician", 9, characterView);
 
                         }
                     }).start();
@@ -82,7 +83,7 @@ public class TechnicianFragment7 extends Fragment {
 
     private void reveal() {
         Log.d("tech7", "reveal");
-        View[] views = {btn1Txt, btn2Txt, btn3Txt, btn4Txt};
+        View[] views = {btn1Txt, btn2Txt, btn3Txt};
         boolean visible = btn1Txt.getVisibility() == View.VISIBLE;
         if (!visible) {
             // reveal it
