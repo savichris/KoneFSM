@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="Supervisor"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="@+id/supervisorImg"
@@ -29,9 +29,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="Technician"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="@+id/technicianImg"
         app:layout_constraintRight_toRightOf="@+id/technicianImg"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -39,22 +38,24 @@
     <ImageView
         android:id="@+id/supervisorImg"
         android:layout_width="128dp"
-        android:layout_height="396dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:transitionName="supervisorCharacter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/character_blue_man_facility_manager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintLeft_toRightOf="@+id/textView3"
+        android:layout_marginLeft="8dp"/>
 
     <ImageView
         android:id="@+id/technicianImg"
         android:layout_width="112dp"
-        android:layout_height="396dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
@@ -64,7 +65,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/character_blue_man_technician"/>
+        app:srcCompat="@drawable/character_blue_man_technician"
+        app:layout_constraintRight_toLeftOf="@+id/textView3"
+        android:layout_marginRight="8dp"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -77,4 +80,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/supervisorImg"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline3"
+        app:layout_constraintGuide_begin="341dp"
+        android:orientation="vertical"/>
 </android.support.constraint.ConstraintLayout>

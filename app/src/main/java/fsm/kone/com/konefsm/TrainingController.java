@@ -329,8 +329,10 @@ class TrainingController {
                         nextFrag = TechnicianFragment8.getInstance(productName);
                         break;
                     case 9:
+                        nextFrag = TechnicianFragment9.getInstance(productName);
                         break;
                     case 10:
+                        nextFrag = TechnicianFragment10.getInstance(productName);
                         break;
                     case 11:
                         break;

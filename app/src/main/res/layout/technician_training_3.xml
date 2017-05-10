@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="0dp"
         android:background="@color/colorPrimary"
         android:padding="4dp"
         android:text="@string/technician_a4_mitigation3"
@@ -83,7 +83,7 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/technician_cause2_txt"
+        app:layout_constraintTop_toBottomOf="@+id/technician_cause3_txt"
         android:layout_marginStart="32dp"/>
 
     <TextView

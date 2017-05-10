@@ -20,7 +20,7 @@ import static com.twitter.sdk.android.core.TwitterCore.TAG;
  * Created by chris on 4/10/17.
  */
 
-public class TechnicianFragment8 extends Fragment {
+public class TechnicianFragment10 extends Fragment {
 
     private String productName;
     private TrainingController mController;
@@ -30,8 +30,8 @@ public class TechnicianFragment8 extends Fragment {
     private TextView btn2Txt;
     private TextView btn3Txt;
 
-    public static TechnicianFragment8 getInstance(String productName) {
-        TechnicianFragment8 fragment = new TechnicianFragment8();
+    public static TechnicianFragment10 getInstance(String productName) {
+        TechnicianFragment10 fragment = new TechnicianFragment10();
         Bundle args = new Bundle();
         args.putString("productName", productName);
         fragment.setArguments(args);
@@ -41,20 +41,20 @@ public class TechnicianFragment8 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.technician_training_8, null);
+        final View rootView = inflater.inflate(R.layout.technician_training_10, null);
         mController = TrainingController.getInstance((AppCompatActivity) getActivity());
         characterView = (ImageView) rootView.findViewById(R.id.technicianImg);
-        titleTxt = (TextView) rootView.findViewById(R.id.technician_a9_title);
-        btn1Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt1);
-        btn2Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt2);
-        btn3Txt = (TextView) rootView.findViewById(R.id.technician_a9_txt3);
+        titleTxt = (TextView) rootView.findViewById(R.id.technician_a11_title);
+        btn1Txt = (TextView) rootView.findViewById(R.id.technician_a11_txt1);
+        btn2Txt = (TextView) rootView.findViewById(R.id.technician_a11_txt2);
+        btn3Txt = (TextView) rootView.findViewById(R.id.technician_a11_txt3);
         btn1Txt.setVisibility(View.INVISIBLE);
         btn2Txt.setVisibility(View.INVISIBLE);
         btn3Txt.setVisibility(View.INVISIBLE);
 
         Handler handler = new Handler(Looper.getMainLooper());
 
-       handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 reveal();
@@ -71,7 +71,7 @@ public class TechnicianFragment8 extends Fragment {
                         @Override
                         public void run() {
                             Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 9, characterView);
+                            mController.advanceTraining("technician", 11, characterView);
 
                         }
                     }).start();

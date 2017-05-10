@@ -12,6 +12,8 @@
     <string name="invitation_cta">Start Now!</string>
     <string name="google_maps_key">AIzaSyCjM5aI2htMNO_ESUbnAhOc4uilrkBVOOM</string>
 
+    <string name="training_choice_title">Select your role</string>
+
     <!-- supervisor goals, slide b-2 -->
     <string name="supervisor_goal_1">Proactive communication with the customer of the maintenance plan or repair quotation</string>
     <string name="supervisor_goal_2">Overview of the condition of each unit and precise matching of technician and spare parts</string>
@@ -101,7 +103,7 @@ the right tools and parts to work on the equipment</string>
     <string name="technician_a9_txt3">Access to all instructions for focusing preventive maintenance and troubleshooting actions to right components</string>
 
     <!-- a10 -->
-    <string name="technician_a10_title">What can FSM Field Mobility Benefit?</string>
+    <string name="technician_a10_title">Who can FSM Field Mobility Benefit?</string>
     <string name="technician_a10_subtitle1">For KONE User</string>
     <string name="technician_a10_subtitle2">For Customer</string>
     <string name="technician_a10_txt1">Correct, complete and up-to-date information</string>
