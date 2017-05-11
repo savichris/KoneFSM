@@ -1,6 +1,7 @@
 package fsm.kone.com.konefsm;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private TrainingController mController;
     private NavigationView navigationView;
     private boolean instanceStateSaved = false;
+    private boolean needsAuthUIUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +103,6 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "resume");
-        if (needsLocationUpdate) {
-            Log.d(TAG, "needs new loc");
-            needsLocationUpdate = false;
-            mController.updateLocation();
-        }
     }
 
     @Override
@@ -113,6 +110,10 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "start");
         instanceStateSaved = false;
         super.onStart();
+        if (needsAuthUIUpdate) {
+            needsAuthUIUpdate = false;
+            updateForAuthState(FirebaseAuth.getInstance());
+        }
     }
 
     private void updateForAuthState(FirebaseAuth auth) {
@@ -127,13 +128,17 @@ public class MainActivity extends AppCompatActivity
             if (auth.getCurrentUser() != null) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Log.d(TAG, "user signed in: " + user.getUid());
-
                 if (user != null) {
                     // Name, email address, and profile photo Url
                     name = user.getDisplayName();
                     email = user.getEmail();
                 }
                 mController.showView(TrainingController.VIEW_TRAINING);
+                if (needsLocationUpdate) {
+                    Log.d(TAG, "needs new loc");
+                    needsLocationUpdate = false;
+                    mController.updateLocation();
+                }
             } else {
                 Log.d(TAG, "no user signed in");
                 mController.showView(TrainingController.VIEW_SPLASH);
@@ -277,14 +282,20 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private boolean needsLocationUpdate = false;
+    private boolean needsLocationUpdate = true;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "permission result");
         switch (requestCode) {
             case REQUEST_LOCATION:
-                needsLocationUpdate = true;
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mController.updateLocation();
+                } else {
+                    needsLocationUpdate = true;
+                }
+
                 break;
             default:
                 break;
@@ -302,8 +313,11 @@ public class MainActivity extends AppCompatActivity
                 if (auth != null) {
                     if (!instanceStateSaved)
                         updateForAuthState(auth);
-                    else
+                    else {
                         Log.d(TAG, "bad state, skip ui update");
+                        needsAuthUIUpdate = true;
+                    }
+
                 } else {
                     Log.d(TAG, "no auth object: failed to update");
                 }

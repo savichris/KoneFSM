@@ -7,7 +7,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -99,7 +98,7 @@ class TrainingController {
     public void beginTechnician(View sharedView) {
         Log.d(TAG, "begin Technician");
         try {
-            Fragment frag = TechnicianFragment7.getInstance(productName);
+            Fragment frag = TechnicianFragment.getInstance(productName);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 frag.setSharedElementEnterTransition(new CharacterTransform());
                 frag.setEnterTransition(new Fade());
@@ -272,7 +271,8 @@ class TrainingController {
         try {
             String provider = locationManager.getBestProvider(criteria, true);
             if (provider == null) {
-                Snackbar.make(mHostActivity.findViewById(R.id.container), "Please enable location services", Snackbar.LENGTH_INDEFINITE).show();
+                getLastKnownLocation();
+                //Snackbar.make(mHostActivity.findViewById(R.id.container), "Please enable location services", Snackbar.LENGTH_INDEFINITE).show();
                 return;
             }
             Iterator<String> providerIt = locationManager.getAllProviders().iterator();
@@ -284,6 +284,7 @@ class TrainingController {
             Log.d(TAG, "last known location:" + lastKnownLocation.getLatitude() + ", " + lastKnownLocation.getLongitude());
         } catch (SecurityException | IllegalArgumentException | NullPointerException e) {
             Log.e(TAG, "unable to get location", e);
+            getLastKnownLocation();
         }
     }
 
