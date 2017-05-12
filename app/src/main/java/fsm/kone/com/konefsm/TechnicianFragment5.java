@@ -2,6 +2,7 @@ package fsm.kone.com.konefsm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.twitter.sdk.android.core.TwitterCore.TAG;
 
@@ -24,6 +28,7 @@ public class TechnicianFragment5 extends Fragment {
     private TrainingController mController;
     private View characterView;
     private TextView popupTxt;
+    private List<Integer> clickedViewIds = new ArrayList<>();
 
     public static TechnicianFragment5 getInstance(String productName) {
         TechnicianFragment5 fragment = new TechnicianFragment5();
@@ -52,6 +57,7 @@ public class TechnicianFragment5 extends Fragment {
             @Override
             public void onClick(View view) {
                 int id = view.getId();
+                clickedViewIds.add(new Integer(id));
                 switch (id) {
                     case R.id.technician_a6_btn1:
                         reveal(R.string.technician_a6_popup1_txt);
@@ -80,26 +86,23 @@ public class TechnicianFragment5 extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    view.animate().translationX(view.getX()+rootView.getWidth())
+                if (clickedViewIds.contains(R.id.technician_a6_btn1) &&
+                        clickedViewIds.contains(R.id.technician_a6_btn2) &&
+                        clickedViewIds.contains(R.id.technician_a6_btn3) &&
+                        clickedViewIds.contains(R.id.technician_a6_btn4)) {
+                    view.animate().translationX(view.getX() + rootView.getWidth())
                             .setDuration(750)
                             .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 6, characterView);
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, "animate button to next finished");
+                                    mController.advanceTraining("technician", 6, characterView);
 
-                        }
-                    }).start();
-
-//                TrainingResult result = new TrainingResult();
-//                result.productName = "FSM";
-//                result.role = "technician";
-//                result.timestamp = System.currentTimeMillis();
-//                if (mController.publishTrainingResults(result)) {
-//                    getActivity().getSupportFragmentManager().popBackStack();
-//                    mController.showView(TrainingController.VIEW_MAP);
-//                    view.setEnabled(false);
-//                }
+                                }
+                            }).start();
+                } else {
+                    Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,12 +20,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -33,7 +44,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
  * Created by chris on 4/10/17.
  */
 
-class TrainingController {
+class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "TrainingController";
 
     public void setActivity(AppCompatActivity mHostActivity) {
@@ -264,10 +275,71 @@ class TrainingController {
         return true;
     }
 
+    private LocationRequest mLocationRequest = new LocationRequest();
+    GoogleApiClient mGoogleClient = null;
+
+    private void requestLocationUpdates() {
+        Log.d(TAG, "request location updates");
+        if (mGoogleClient == null) {
+            mGoogleClient = new GoogleApiClient.Builder(mHostActivity)
+                    .enableAutoManage(mHostActivity,
+                            this /* OnConnectionFailedListener */)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest);
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleClient,
+                        builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+                final Status status = locationSettingsResult.getStatus();
+                Log.d(TAG, "location request result code: " + status.getStatusMessage() + "(" +status.getStatusCode() + ")");
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        // All location settings are satisfied. The client can
+                        // initialize location requests here.
+                        startLocationUpdates();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // TODO: Location settings are not satisfied, but this can be fixed
+                        // by showing the user a dialog.
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        // Location settings are not satisfied. However, we have no way
+                        // to fix the settings so we won't show the dialog.
+                        break;
+                }
+            }
+        });
+    }
+
+    protected void startLocationUpdates() {
+        Log.d(TAG, "starting location updates");
+        try {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleClient, mLocationRequest, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d(TAG, "new location received");
+                    lastKnownLocation = location;
+                    Log.d(TAG, "last known location:" + lastKnownLocation.getLatitude() + ", " + lastKnownLocation.getLongitude());
+                }
+            });
+        } catch (SecurityException se) {
+            Log.e(TAG, "security exception");
+        }
+    }
+
     public void updateLocation() {
         Log.d(TAG, "update location");
         LocationManager locationManager = (LocationManager) mHostActivity.getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         try {
             String provider = locationManager.getBestProvider(criteria, true);
             if (provider == null) {
@@ -275,13 +347,8 @@ class TrainingController {
                 //Snackbar.make(mHostActivity.findViewById(R.id.container), "Please enable location services", Snackbar.LENGTH_INDEFINITE).show();
                 return;
             }
-            Iterator<String> providerIt = locationManager.getAllProviders().iterator();
-            while (providerIt.hasNext()) {
-                Log.d(TAG, "location provider: " + providerIt.next());
-            }
-            Log.d(TAG, "chosen loc provider: " + provider);
-            lastKnownLocation = locationManager.getLastKnownLocation(provider);
-            Log.d(TAG, "last known location:" + lastKnownLocation.getLatitude() + ", " + lastKnownLocation.getLongitude());
+            requestLocationUpdates();
+
         } catch (SecurityException | IllegalArgumentException | NullPointerException e) {
             Log.e(TAG, "unable to get location", e);
             getLastKnownLocation();
@@ -341,7 +408,9 @@ class TrainingController {
                         break;
                     case 13:
                         break;
-
+                    case 17: // survey
+                        nextFrag = TechnicianFragmentSurvey.getInstance(productName);
+                        break;
 
                 }
             } else if (character.equalsIgnoreCase("supervisor")) {
@@ -369,5 +438,10 @@ class TrainingController {
             }
 
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

@@ -129,5 +129,26 @@ the right tools and parts to work on the equipment</string>
     <string name="technician_a12_txt9">Do not know what is the maintenance contract required?</string>
 
 
+    <!-- Skip some slides -->
+
+    <!-- Technician Quiz -->
+    <string name="technician_quiz_1">How do you like FMS tells you where to go next, and your daily task list is constantly updated and prioritized?</string>
+    <string name="technician_quiz_2">How do you like FMT recommends completing additional jobs on the site, if they are within the scheduling horizon?</string>
+    <string name="technician_quiz_3">How do you like FMS tells you customer’s expectations and his contract coverage for this job?</string>
+    <string name="technician_quiz_4">How do you like to see the full service history and what parts have been replaced?</string>
+    <string name="technician_quiz_5">How do you like to see in FMT, if you have the parts in your car. If not, you can easily order them.
+    For planned jobs, system will ensure that parts are available before dispatching a job.</string>
+    <string name="technician_quiz_6">How do you like to receive in FMT critical documents together with other site/equipment/job related information </string>
+    <string name="technician_quiz_7">Which function of FMS you expect most</string>
+    <string name="technician_quiz_8">Which function of FMS you have more concern</string>
+    <string name="technician_quiz_9">Please share your comments or story with colleagues</string>
+
+    <string name="technician_quiz_78_option_1">Schedule and dispatching</string>
+    <string name="technician_quiz_78_option_2">Field mobility</string>
+    <string name="technician_quiz_78_option_3">Data management</string>
+    <string name="technician_quiz_78_option_4">Call center</string>
+
+    <string name="submit_results">Submit</string>
+
 
 </resources>

@@ -2,6 +2,7 @@ package fsm.kone.com.konefsm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.twitter.sdk.android.core.TwitterCore.TAG;
 
@@ -26,6 +30,8 @@ public class TechnicianFragment6 extends Fragment {
     private View characterView;
     private TextView popupTxt;
     private FrameLayout popin_container;
+    private List<Integer> clickedViewIds = new ArrayList<>();
+
 
     public static TechnicianFragment6 getInstance(String productName) {
         TechnicianFragment6 fragment = new TechnicianFragment6();
@@ -55,6 +61,7 @@ public class TechnicianFragment6 extends Fragment {
             @Override
             public void onClick(View view) {
                 int id = view.getId();
+                clickedViewIds.add(new Integer(id));
                 switch (id) {
                     case R.id.technician_a7_btn1:
                         reveal(R.string.technician_a7_popup1_txt);
@@ -79,16 +86,22 @@ public class TechnicianFragment6 extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    view.animate().translationX(view.getX()+rootView.getWidth())
+                if (clickedViewIds.contains(R.id.technician_a7_btn1) &&
+                        clickedViewIds.contains(R.id.technician_a7_btn2) &&
+                        clickedViewIds.contains(R.id.technician_a7_btn3)) {
+                    view.animate().translationX(view.getX() + rootView.getWidth())
                             .setDuration(750)
                             .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 7, characterView);
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, "animate button to next finished");
+                                    mController.advanceTraining("technician", 7, characterView);
 
-                        }
-                    }).start();
+                                }
+                            }).start();
+                } else {
+                    Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

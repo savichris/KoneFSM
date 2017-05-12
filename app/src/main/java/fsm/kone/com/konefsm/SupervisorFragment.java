@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,7 +78,7 @@ public class SupervisorFragment extends Fragment {
         goal3Btn.setOnClickListener(goalClickListener);
         goal4Btn.setOnClickListener(goalClickListener);
 
-        ImageButton nextBtn = (ImageButton) rootView.findViewById(R.id.nextBtn);
+        Button nextBtn = (Button) rootView.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

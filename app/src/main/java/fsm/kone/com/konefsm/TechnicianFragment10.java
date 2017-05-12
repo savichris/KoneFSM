@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -65,16 +66,20 @@ public class TechnicianFragment10 extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    view.animate().translationX(view.getX()+rootView.getWidth())
+                if ( btn1Txt.getVisibility() == View.VISIBLE) {
+                    view.animate().translationX(view.getX() + rootView.getWidth())
                             .setDuration(750)
                             .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 11, characterView);
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, "animate button to next finished");
+                                    mController.advanceTraining("technician", 17, characterView);
 
-                        }
-                    }).start();
+                                }
+                            }).start();
+                } else {
+                    Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

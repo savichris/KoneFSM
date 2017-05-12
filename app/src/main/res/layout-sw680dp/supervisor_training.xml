@@ -22,22 +22,20 @@
         app:layout_constraintVertical_bias="0.466"
         app:srcCompat="@drawable/character_blue_man_facility_manager"/>
 
-    <ImageButton
+    <Button
         android:id="@+id/nextBtn"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:layout_marginBottom="17dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:text="Next"
+        style="@style/FirebaseUI.Button.AccountChooser.EmailButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="32dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/com_facebook_button_like_icon_selected"
+        android:text="@string/submit_results"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/equip_c_arrow_right"
-        tools:layout_editor_absoluteX="283dp"
-        tools:layout_editor_absoluteY="226dp"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <ImageView
         android:id="@+id/supervisor_goal_1_img"
@@ -48,7 +46,8 @@
         android:hapticFeedbackEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/character_1_a_tailored_maintenance_plan_01"/>
+        app:srcCompat="@drawable/character_1_a_tailored_maintenance_plan_01"
+        android:layout_marginStart="32dp"/>
 
     <ImageView
         android:id="@+id/supervisor_goal_2_img"
@@ -59,7 +58,8 @@
         android:hapticFeedbackEnabled="true"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/character_2_installation_01"/>
+        app:srcCompat="@drawable/character_2_installation_01"
+        android:layout_marginEnd="32dp"/>
 
     <ImageView
         android:id="@+id/supervisor_goal_3_img"
@@ -70,7 +70,8 @@
         android:hapticFeedbackEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:srcCompat="@drawable/character_3_easy_steps_cad_drawings_01"/>
+        app:srcCompat="@drawable/character_3_easy_steps_cad_drawings_01"
+        android:layout_marginStart="16dp"/>
 
     <ImageView
         android:id="@+id/supervisor_goal_4_img"
@@ -81,13 +82,13 @@
         android:hapticFeedbackEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/character_3_expert_help_from_skilled_technicians_01"/>
+        app:srcCompat="@drawable/character_3_expert_help_from_skilled_technicians_01"
+        android:layout_marginEnd="32dp"/>
 
     <TextView
         android:id="@+id/supervisor_goal1_txt"
         android:layout_width="150dp"
         android:layout_height="173dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginLeft="24dp"
         android:background="?android:attr/colorPrimary"
         android:hapticFeedbackEnabled="false"
@@ -100,25 +101,23 @@
         app:layout_constraintBottom_toBottomOf="@+id/supervisor_goal_1_img"
         app:layout_constraintLeft_toRightOf="@+id/supervisor_goal_1_img"
         app:layout_constraintTop_toTopOf="@+id/supervisor_goal_1_img"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"/>
 
     <TextView
         android:id="@+id/supervisor_goal2_txt"
         android:layout_width="170dp"
         android:layout_height="183dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="24dp"
         android:background="@color/com_facebook_likeboxcountview_border_color"
         android:padding="2dp"
         android:text="@string/supervisor_goal_2"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/technicianImg"
-        app:layout_constraintLeft_toRightOf="@+id/technicianImg"
         app:layout_constraintRight_toLeftOf="@+id/supervisor_goal_2_img"
         app:layout_constraintTop_toTopOf="@+id/supervisor_goal_2_img"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"/>
 
     <TextView
         android:id="@+id/supervisor_goal3_txt"
@@ -133,7 +132,8 @@
         android:layout_marginLeft="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/supervisor_goal_3_img"/>
+        app:layout_constraintBottom_toTopOf="@+id/supervisor_goal_3_img"
+        android:layout_marginStart="32dp"/>
 
     <TextView
         android:id="@+id/supervisor_goal4_txt"
@@ -147,5 +147,6 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/supervisor_goal_4_img"
         android:layout_marginRight="32dp"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="32dp"/>
 </android.support.constraint.ConstraintLayout>

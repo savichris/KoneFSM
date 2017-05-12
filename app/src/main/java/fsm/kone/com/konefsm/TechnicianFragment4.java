@@ -90,7 +90,10 @@ public class TechnicianFragment4 extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mitigation1Txt.getVisibility() == View.VISIBLE) {
+                if (mitigation1Txt.getVisibility() == View.VISIBLE &&
+                        mitigation2Txt.getVisibility() == View.VISIBLE &&
+                        mitigation3Txt.getVisibility() == View.VISIBLE &&
+                        mitigation4Txt.getVisibility() == View.VISIBLE) {
                     view.animate().translationX(view.getX()+rootView.getWidth())
                             .setDuration(750)
                             .withEndAction(new Runnable() {
