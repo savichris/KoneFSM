@@ -165,6 +165,7 @@
                 android:id="@+id/q8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@string/technician_quiz_8"/>
 
             <TextView
