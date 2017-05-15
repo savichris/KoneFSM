@@ -15,8 +15,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,14 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by chris on 4/10/17.
  */
 
-public class ResultsMapFragment extends SupportMapFragment implements OnMapReadyCallback {
+public class ResultsMapFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "ResultsMapFrag";
     private static ResultsMapFragment sInstance;
@@ -68,40 +72,47 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
         if (mController.checkPermissions()) {
             here = updateLocation();
         }
+        googleMap.setOnMarkerClickListener(this);
         addMarkers();
     }
 
-    private HashMap<String, MarkerOptions> markerTable = new HashMap<>();
+    private HashMap<String, Marker> markerTable = new HashMap<>();
+    private List<TrainingResult> trainingResults = new ArrayList<>();
     private Handler mHandler;
 
     private void addMarkers() {
+        trainingResults.clear();
         DatabaseReference resultsRef = FirebaseDatabase.getInstance().getReference("results");
         resultsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     TrainingResult message = messageSnapshot.getValue(TrainingResult.class);
-                    String snippet = "Completed " + message.productName + " " + message.role + " @ " + new Date(message.timestamp).toString();
-                    LatLng loc = null;
-                    try {
-                        loc = new LatLng(message.getLatitude(), message.getLongitude());
-                    } catch (NullPointerException e) {
-                        Log.d(TAG, "result data with no location for user:" + message.username);
-                    }
-                    if (loc != null) {
-                        final MarkerOptions marker = new MarkerOptions().position(loc)
-                                .title(message.username).snippet(snippet);
-                        markerTable.put(message.uid, marker);
-                    }
+                    trainingResults.add(message);
                 }
 
 
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        for (MarkerOptions marker: markerTable.values()) {
-                            googleMap.addMarker(marker);
+                    synchronized (trainingResults) {
+                        for (TrainingResult message : trainingResults) {
+                            String snippet = "Completed " + message.productName + " " + message.role + " @ " + new Date(message.timestamp).toString();
+                            LatLng loc = null;
+                            try {
+                                loc = new LatLng(message.getLatitude(), message.getLongitude());
+                            } catch (NullPointerException e) {
+                                Log.d(TAG, "result data with no location for user:" + message.username);
+                            }
+                            if (loc != null) {
+                                final MarkerOptions markerOpt = new MarkerOptions().position(loc)
+                                        .title(message.username).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(colorForProductAndRole(message.getProductName(), message.getRole())));
+                                Marker marker = googleMap.addMarker(markerOpt);
+                                marker.setTag(message);
+                                markerTable.put(message.uid, marker);
+                            }
                         }
+                    }
                     }
                 });
             }
@@ -114,7 +125,10 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
         resultsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                TrainingResult message = dataSnapshot.getValue(TrainingResult.class);
+                final TrainingResult message = dataSnapshot.getValue(TrainingResult.class);
+                synchronized (trainingResults) {
+                    trainingResults.add(message);
+                }
                 String snippet = "Completed " + message.productName + " " + message.role + " @ " + new Date(message.timestamp).toString();
                 LatLng loc = null;
                 try {
@@ -123,13 +137,16 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
                     Log.d(TAG, "new results, no location data");
                 }
                 if (loc != null) {
-                    final MarkerOptions marker = new MarkerOptions().position(loc)
-                            .title(message.username).snippet(snippet);
-                    markerTable.put(message.uid, marker);
+                    final MarkerOptions markerOpt = new MarkerOptions().position(loc)
+                            .title(message.username).snippet(snippet).
+                    icon(BitmapDescriptorFactory.defaultMarker(colorForProductAndRole(message.getProductName(), message.getRole())));
+
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            googleMap.addMarker(marker);
+                            Marker marker = googleMap.addMarker(markerOpt);
+                            marker.setTag(message);
+                            markerTable.put(message.uid, marker);
                         }
                     });
                 }
@@ -157,6 +174,14 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
         });
     }
 
+    private float colorForProductAndRole(String productName, String role) {
+        if (productName.equalsIgnoreCase("fsm")) {
+            if (role.equalsIgnoreCase("technician")) return BitmapDescriptorFactory.HUE_VIOLET;
+            else if (role.equalsIgnoreCase("supervisor")) return BitmapDescriptorFactory.HUE_MAGENTA;
+        }
+        return BitmapDescriptorFactory.HUE_ORANGE;
+    }
+
     public LatLng updateLocation() {
         LatLng here = null;
         lastKnownLocation = mController.getLastKnownLocation();
@@ -175,5 +200,11 @@ public class ResultsMapFragment extends SupportMapFragment implements OnMapReady
 
     public static ResultsMapFragment current() {
         return sInstance;
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d(TAG, "clicked map marker:" + ((TrainingResult)marker.getTag()).getUsername());
+        return false;
     }
 }
