@@ -32,8 +32,11 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,12 +62,17 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
     private Location lastKnownLocation;
 
+    private HashMap productInfo = null;
+    private IProductInfoDelegate productInfoDelegate;
+
     public static final int VIEW_CURRENT = 0;
     public static final int VIEW_TRAINING = 1;
     public static final int VIEW_MAP = 2;
     public static final int VIEW_FAQ = 3;
     public static final int VIEW_MANAGE = 4;
     public static final int VIEW_SPLASH = 5;
+    public static final int VIEW_TOOLS = 6;
+
 
     private int currentView = 1;
 
@@ -72,6 +80,8 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
         Log.d(TAG, "created controller");
         this.mHostActivity = c;
         this.productName = productName;
+        if (mHostActivity instanceof IProductInfoDelegate)
+            productInfoDelegate = (IProductInfoDelegate) mHostActivity;
         fragmentManager = c.getSupportFragmentManager();
         mDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -86,6 +96,14 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
             sInstance.fragmentManager = c.getSupportFragmentManager();
         }
         return sInstance;
+    }
+
+    public void setProductInfoDelegate(IProductInfoDelegate delegate) {
+        productInfoDelegate = delegate;
+    }
+
+    public HashMap getProductInfo() {
+        return productInfo;
     }
 
     public void beginSupervisor(View sharedView) {
@@ -106,6 +124,7 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
         }
     }
 
+
     public void beginTechnician(View sharedView) {
         Log.d(TAG, "begin Technician");
         try {
@@ -119,9 +138,48 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
                     .replace(R.id.container, frag)
                     .addSharedElement(sharedView, ViewCompat.getTransitionName(sharedView))
                     .addToBackStack("trainTechnician").commit();
+            //loadProductInfo(productName);
+            loadRoleForLoadedProduct("technician");
+
         } catch (IllegalStateException e) {
             Log.e("TrainingController", "failed to transition to technician training", e);
         }
+    }
+
+    private void loadRoleForLoadedProduct(String technician) {
+        if (productInfo != null) {
+
+        }
+    }
+
+    public void loadProductInfo(final String productName) {
+        DatabaseReference resultsRef = FirebaseDatabase.getInstance().getReference("products/" + productName);
+        resultsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "received product info as " + dataSnapshot.getValue().getClass().getName());
+                if (dataSnapshot.getValue() instanceof HashMap) {
+                    productInfo = (HashMap) dataSnapshot.getValue();
+                    mHostActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (productInfoDelegate != null) {
+                                productInfo.put("name", productName);
+                                productInfoDelegate.onProductLoaded(productInfo);
+                            }
+                        }
+                    });
+
+                } else {
+                    Log.e(TAG, "unexpected type for product info");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "cancelled product info load");
+            }
+        });
     }
 
     private void beginTraining() {
@@ -146,6 +204,15 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
         Log.d(TAG, "begin faq");
         try {
         fragmentManager.beginTransaction().replace(R.id.container, FaqFragment.getInstance()).addToBackStack("faq").commit();
+        } catch (IllegalStateException e) {
+            Log.e("TrainingController", "failed to update UI", e);
+        }
+    }
+
+    private void showTools() {
+        Log.d(TAG, "begin faq");
+        try {
+            fragmentManager.beginTransaction().replace(R.id.container, ToolsChooserFragment.getInstance()).addToBackStack("faq").commit();
         } catch (IllegalStateException e) {
             Log.e("TrainingController", "failed to update UI", e);
         }
@@ -195,6 +262,8 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
                     currentFragType = VIEW_MAP;
                 } else if (fragment instanceof SplashFragment) {
                     currentFragType = VIEW_SPLASH;
+                } else if (fragment instanceof ToolsChooserFragment) {
+                    currentFragType = VIEW_TOOLS;
                 }
                 if (currentFragType == currentView) {
                     Log.d(TAG, "don't show same view again");
@@ -220,6 +289,8 @@ class TrainingController implements GoogleApiClient.OnConnectionFailedListener {
             case VIEW_SPLASH:
                 beginSplash();
                 break;
+            case VIEW_TOOLS:
+                showTools();
             case VIEW_CURRENT:
                 showView(currentView);
                 return; // don't update current view

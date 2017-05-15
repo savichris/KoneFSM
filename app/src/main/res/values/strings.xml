@@ -1,9 +1,15 @@
 <resources>
-    <string name="app_name">KoneFSM</string>
+    <string name="app_name">Kone FSM</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="create_account">Login or Sign Up</string>
+
+    <string name="select_product">Select the desired product for this session</string>
+    <string name="product1">FSM</string>
+    <string name="product2">Hydro Mod</string>
+    <string name="product3">Mono 500 EB Flex</string>
+    <string name="begin">Continue</string>
 
     <string name="action_settings">Settings</string>
     <string name="invitation_title">Share KONE FSM with others</string>
@@ -143,10 +149,12 @@ the right tools and parts to work on the equipment</string>
     <string name="technician_quiz_8">Which function of FMS you have more concern</string>
     <string name="technician_quiz_9">Please share your comments or story with colleagues</string>
 
+
     <string name="technician_quiz_78_option_1">Schedule and dispatching</string>
     <string name="technician_quiz_78_option_2">Field mobility</string>
     <string name="technician_quiz_78_option_3">Data management</string>
     <string name="technician_quiz_78_option_4">Call center</string>
+
 
     <string name="submit_results">Submit</string>
 

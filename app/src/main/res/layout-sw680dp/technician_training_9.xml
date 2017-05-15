@@ -64,7 +64,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="36dp"
         android:background="@color/colorPrimary"
         android:padding="4dp"
         android:text="@string/technician_a10_txt2"
@@ -74,7 +74,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/technicianImg"
         app:layout_constraintTop_toBottomOf="@+id/technician_a10_koneUser"
-        app:layout_constraintHorizontal_bias="0.6"/>
+        app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
         android:id="@+id/technician_a10_kone_txt3"
@@ -90,7 +90,7 @@
         android:textAlignment="textStart"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/technicianImg"
         app:layout_constraintTop_toBottomOf="@+id/technician_a10_kone_txt1"/>
@@ -102,7 +102,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="31dp"
         android:background="@color/colorPrimary"
         android:padding="4dp"
         android:text="@string/technician_a10_txt4"
@@ -111,7 +111,8 @@
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@+id/technicianImg"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/technician_a10_customer"/>
+        app:layout_constraintTop_toBottomOf="@+id/technician_a10_customer"
+        app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
         android:id="@+id/technician_a10_customer_txt2"
@@ -127,7 +128,7 @@
         android:textAlignment="textStart"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toRightOf="@+id/technicianImg"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/technician_a10_customer_txt1"/>
@@ -158,7 +159,8 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/technicianImg"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
         android:id="@+id/technician_a10_customer"
@@ -174,6 +176,7 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toRightOf="@+id/technicianImg"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintHorizontal_bias="0.5"/>
 
 </android.support.constraint.ConstraintLayout>

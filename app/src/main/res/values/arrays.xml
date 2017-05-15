@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fsm_components">
+        <item>@string/technician_quiz_78_option_1</item>
+        <item>@string/technician_quiz_78_option_2</item>
+        <item>@string/technician_quiz_78_option_3</item>
+        <item>@string/technician_quiz_78_option_4</item>
+    </string-array>
+
+    <string-array name="product_choices">
+        <item>@string/product1</item>
+        <item>@string/product2</item>
+        <item>@string/product3</item>
+    </string-array>
+</resources>

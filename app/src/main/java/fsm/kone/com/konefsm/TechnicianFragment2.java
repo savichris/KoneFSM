@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import static com.twitter.sdk.android.core.TwitterCore.TAG;
 
 /**
  * Created by chris on 4/10/17.
@@ -58,6 +55,9 @@ public class TechnicianFragment2 extends Fragment {
                 switch (id) {
                     case R.id.technician_goal1_img:
                         toggleGoalText(goal1Txt.getId());
+                        goal1Btn.animate().translationY(rootView.getHeight() - goal1Btn.getY())
+                                .setDuration(1750)
+                                .setInterpolator(new LinearInterpolator()).start();
                         break;
 
                     default:
@@ -73,29 +73,10 @@ public class TechnicianFragment2 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (goal1Txt.getVisibility() == View.VISIBLE) {
-                    goal1Btn.animate().translationY(rootView.getHeight() - goal1Btn.getY())
-                            .setDuration(1750)
-                            .setInterpolator(new LinearInterpolator())
-                            .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "animate button to next finished");
-                            mController.advanceTraining("technician", 3, characterView);
-
-                        }
-                    }).start();
+                    mController.advanceTraining("technician", 3, characterView);
                 } else {
                     Snackbar.make(view, R.string.read_all, Snackbar.LENGTH_SHORT).show();
                 }
-//                TrainingResult result = new TrainingResult();
-//                result.productName = "FSM";
-//                result.role = "technician";
-//                result.timestamp = System.currentTimeMillis();
-//                if (mController.publishTrainingResults(result)) {
-//                    getActivity().getSupportFragmentManager().popBackStack();
-//                    mController.showView(TrainingController.VIEW_MAP);
-//                    view.setEnabled(false);
-//                }
             }
         });
 

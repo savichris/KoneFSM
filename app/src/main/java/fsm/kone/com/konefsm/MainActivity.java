@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -30,16 +31,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
+
 import static fsm.kone.com.konefsm.TrainingController.VIEW_CURRENT;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_FAQ;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_MANAGE;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_MAP;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_SPLASH;
+import static fsm.kone.com.konefsm.TrainingController.VIEW_TOOLS;
 import static fsm.kone.com.konefsm.TrainingController.VIEW_TRAINING;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FirebaseAuth.AuthStateListener,
-        ILoginDelegate {
+        ILoginDelegate, IProductInfoDelegate {
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "mainactivity";
     public static final int REQUEST_LOCATION = 1234;
@@ -49,14 +53,18 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private boolean instanceStateSaved = false;
     private boolean needsAuthUIUpdate = false;
+    private boolean isRecreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "create");
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) isRecreated = false;
+        else isRecreated = true;
         instanceStateSaved = false;
         setContentView(R.layout.activity_main);
         mController = TrainingController.getInstance(this);
+        mController.setProductInfoDelegate(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,13 +76,15 @@ public class MainActivity extends AppCompatActivity
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(this);
         if (auth.getCurrentUser() != null) {
-            mController.showView(VIEW_CURRENT);
+            if (!isRecreated)
+                mController.showView(VIEW_CURRENT);
         } else {
             mController.showView(VIEW_SPLASH);
         }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        handleIntent();
+        if (!isRecreated)
+            handleIntent();
     }
 
     @Override
@@ -126,14 +136,16 @@ public class MainActivity extends AppCompatActivity
             String name = "";
             String email = "";
             if (auth.getCurrentUser() != null) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d(TAG, "user signed in: " + user.getUid());
-                if (user != null) {
-                    // Name, email address, and profile photo Url
-                    name = user.getDisplayName();
-                    email = user.getEmail();
+                if (!isRecreated) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    Log.d(TAG, "user signed in: " + user.getUid());
+                    if (user != null) {
+                        // Name, email address, and profile photo Url
+                        name = user.getDisplayName();
+                        email = user.getEmail();
+                    }
+                    mController.showView(TrainingController.VIEW_MANAGE);
                 }
-                mController.showView(TrainingController.VIEW_TRAINING);
                 if (needsLocationUpdate) {
                     Log.d(TAG, "needs new loc");
                     needsLocationUpdate = false;
@@ -235,6 +247,8 @@ public class MainActivity extends AppCompatActivity
             selectedView = VIEW_FAQ;
         } else if (id == R.id.nav_manage) {
             selectedView = VIEW_MANAGE;
+        } else if (id == R.id.nav_tools) {
+            selectedView = VIEW_TOOLS;
         }
         if (!instanceStateSaved)
             mController.showView(selectedView);
@@ -350,5 +364,23 @@ public class MainActivity extends AppCompatActivity
                         Log.d(TAG, "sign out finished");
                     }
                 });
+    }
+
+    @Override
+    public void onProductLoaded(HashMap productInfo) {
+        try {
+            Toast.makeText(this, (String) productInfo.get("description"), Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException ne) {
+            Log.e(TAG, ne.getMessage());
+        }
+    }
+
+    @Override
+    public void onRoleLoaded(HashMap roleInfo) {
+        try {
+            Toast.makeText(this, (String) roleInfo.get("description"), Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException ne) {
+            Log.e(TAG, ne.getMessage());
+        }
     }
 }
